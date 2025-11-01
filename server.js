@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from "express";
 import cors from "cors";
-import authRoutes from "./routes/expenseRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import incomeRoutes from "./routes/incomeRoutes.js";
 import expenseRoutes from "./routes/expenseRoutes.js";
 import { dbConnection } from "./config/db.js";
@@ -11,16 +11,21 @@ import { dbConnection } from "./config/db.js";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Simple CORS - accepts requests from anywhere
+// CORS configuration
 app.use(cors({
-  origin: '*',
+  origin: [
+    'https://expense-tracker-frontend-psi-dusky.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
-// Handle preflight requests
-app.options('*', cors());
+// ❌ YEH LINE HATA DO - already app.use(cors()) se handle ho raha hai
+// app.options('*', cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
