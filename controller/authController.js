@@ -30,11 +30,12 @@ export const login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "1d" });
 
-    return res.json({
-      message: "Login successful",
-      token,
-      name: user.fullName,
-    });
+    res.status(200).json({
+    message: "Login successful",
+    token: generatedToken,
+    userId: user._id, // <--- Add this line!
+    name: user.name
+});
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
