@@ -12,19 +12,17 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // CORS configuration
-app.use(cors({
-  origin: [
-    'https://expense-tracker-frontend-psi-dusky.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:3000'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
-
-// ❌ YEH LINE HATA DO - already app.use(cors()) se handle ho raha hai
-// app.options('*', cors());
+// app.use(cors({
+//   origin: [
+//     'https://expense-tracker-frontend-psi-dusky.vercel.app',
+//     'http://localhost:5173',
+//     'http://localhost:5000'
+//   ],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+//   credentials: true
+// }));
+app.use(cors())
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
