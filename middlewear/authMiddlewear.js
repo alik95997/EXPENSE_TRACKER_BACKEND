@@ -1,21 +1,16 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "EXPENSETRACKER";
+export const protect = (req, res, next) => {
+  const token = req.cookies.token;
 
-export const verifyToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  const token = authHeader.split(" ")[1];
+  if (!token)
+    return res.status(401).json({ message: "Not authorized" });
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.userId = decoded.id; // 👈 available in all controllers
+    req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Invalid or expired token" });
+    return res.status(401).json({ message: "Invalid token" });
   }
 };

@@ -1,12 +1,12 @@
 import express from "express";
 import { addIncome, getIncome, deleteIncome } from "../controller/incomeController.js";
-import { verifyToken } from "../middlewear/authMiddlewear.js";
+import { protect } from "../middlewear/authMiddlewear.js";
 
 const router = express.Router();
 
-router.post("/addincome", verifyToken ,addIncome)
-router.get("/getincome", verifyToken, getIncome)
+router.post("/addincome", protect ,addIncome)
+router.get("/getincome", protect, getIncome)
 // FIX: Added the URL parameter :id to match the frontend request format
-router.delete("/deleteincome/:id", verifyToken, deleteIncome)
+router.delete("/deleteincome/:id", protect, deleteIncome)
 
 export default router
