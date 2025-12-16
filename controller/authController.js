@@ -29,6 +29,7 @@ export const login = async (req, res) => {
 
     if (!user)
       return res.status(400).json({ message: "Invalid email or password" });
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Invalid email or password" });
@@ -36,15 +37,16 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET);
 
     res.cookie("token", token, {
-      httpOnly: true, // JS access nahi kar sakta
-      secure: true, // HTTPS only (production)
-      sameSite: "none", // frontend & backend different domains
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({
       message: "Login successful",
       userId: user._id,
+      name: user.fullName,
     });
   } catch (error) {
     console.error("Login server error:", error.message);
