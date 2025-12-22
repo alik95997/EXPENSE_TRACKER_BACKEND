@@ -1,7 +1,6 @@
 import User from "../schema/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";
 const JWT_SECRET = process.env.JWT_SECRET || "EXPENSETRACKER";
 
 export const signup = async (req, res) => {
@@ -36,18 +35,13 @@ export const login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // true only in production
-      sameSite: "none", // needed for cross-origin
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+    res.cookie("token", token);
 
-
-    res.status(200).json({
+    return res.status(200).json({
       message: "Login successful",
       userId: user._id,
-      name: user.fullName,
+      data: user,
+      token,
     });
   } catch (error) {
     console.error("Login server error:", error.message);
@@ -56,4 +50,8 @@ export const login = async (req, res) => {
       error: error.message,
     });
   }
+};
+
+export const profile = (req, res) => {
+  console.log(req.user);
 };

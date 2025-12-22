@@ -7,14 +7,15 @@ import expenseRoutes from "./routes/expenseRoutes.js";
 import { dbConnection } from "./config/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // your frontend during development
-    credentials: true, // allow cookies to be sent
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
 
@@ -39,9 +40,9 @@ app.use("/api/income", incomeRoutes);
 app.use("/api/expense", expenseRoutes);
 
 if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running locally at: http://localhost:${PORT}`);
-  });
 }
 
+app.listen(PORT, () => {
+  console.log(`🚀 Server running locally at: http://localhost:${PORT}`);
+});
 export default app;
