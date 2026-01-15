@@ -13,8 +13,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "expense-tracker-frontend-psi-dusky.vercel.app", // Your frontend URL
-    credentials: true, // Allow cookies
+    origin: [
+      "https://expense-tracker-frontend-psi-dusky.vercel.app",
+      "http://localhost:5173",
+    ],
+    credentials: true,
   })
 );
 
@@ -39,10 +42,9 @@ app.use("/api/income", incomeRoutes);
 app.use("/api/expense", expenseRoutes);
 
 if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-  console.log(`Server running locally at: http://localhost:${PORT}`);
-});
 }
 
-
+app.listen(PORT, () => {
+  console.log(`Server running locally at: http://localhost:${PORT}`);
+});
 export default app;

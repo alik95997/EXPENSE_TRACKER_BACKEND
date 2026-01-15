@@ -2,7 +2,7 @@ import IncomeModel from "../schema/Income.js";
 
 export const addIncome = async (req, res) => {
   try {
-    const userId = req.userId; // 👈 now from verified token
+    const userId = req.user._id;
     const incomeObj = { userId, ...req.body };
 
     const newIncome = await IncomeModel.create(incomeObj);
@@ -19,9 +19,13 @@ export const addIncome = async (req, res) => {
 
 export const getIncome = async (req, res) => {
   try {
-    const userId = req.userId;
+    // console.log(req.user);
+    const userId = req.user._id;
+    // console.log(userId);
     const incomes = await IncomeModel.find({ userId }).sort({ date: -1 });
-    return res.status(200).json({ message: "Income records fetched.", data: incomes });
+    return res
+      .status(200)
+      .json({ message: "Income records fetched.", data: incomes });
   } catch (error) {
     console.error("Error retrieving income:", error.message);
     return res.status(500).json({ message: "Internal server error." });

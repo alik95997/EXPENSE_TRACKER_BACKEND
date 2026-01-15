@@ -58,12 +58,29 @@ export const login = async (req, res) => {
 
 export const profile = async (req, res) => {
   try {
-    // console.log(req.user);
-    const response = await User.findOne({ _id: req.user.id });
+    // console.log("req.user", req.user);
+    const response = await User.findById(req.user);
 
     res.status(200).json({
       message: "User Profile",
       data: response,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error("Login server error:", error.message);
+    return res.status(500).json({
+      message: "Internal server error during login",
+      error: error.message,
+    });
+  }
+};
+
+export const logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
+
+  res.status(200).json({ message: "Logout successful" });
 };
