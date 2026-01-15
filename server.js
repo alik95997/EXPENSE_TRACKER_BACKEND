@@ -11,15 +11,13 @@ import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(
-  cors({
-    origin: [
-      "https://expense-tracker-frontend-psi-dusky.vercel.app",
-      "http://localhost:5173",
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://expense-tracker-frontend-i6gudd8xf-alik95997s-projects.vercel.app" 
+  ],
+  credentials: true
+}));
 
 app.use(cookieParser());
 
@@ -27,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 try {
-  dbConnection();
+  await dbConnection();
   console.log(" Database connected successfully");
 } catch (err) {
   console.error("Database connection failed:", err.message);
