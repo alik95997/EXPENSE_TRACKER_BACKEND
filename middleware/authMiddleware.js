@@ -6,11 +6,11 @@ export const protect = async (req, res, next) => {
   if (!token) return res.status(401).json({ message: "Not authorized" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userData = await User.findById(decoded.id);
+    const userData = await User.findById(decoded.id).select("-password");
     if (!userData) {
       return res.status(401).json({ message: "User no longer exists" });
     }
-    req.user = userData._id;
+    req.user = userData;
     next();
   } catch (error) {
     console.error("Token verification failed:", error);

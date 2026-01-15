@@ -43,9 +43,8 @@ app.use("/api/expense", expenseRoutes);
 
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
-  console.log(`Server running locally at: http://localhost:${PORT}`);
-});
+    console.log(`Server running locally at: http://localhost:${PORT}`);
+  });
 }
-
 
 export default app;

@@ -58,8 +58,8 @@ export const login = async (req, res) => {
 
 export const profile = async (req, res) => {
   try {
-    // console.log("req.user", req.user);
-    const response = await User.findById(req.user);
+    const userId = req.user._id;
+    const response = await User.findById(userId);
 
     res.status(200).json({
       message: "User Profile",

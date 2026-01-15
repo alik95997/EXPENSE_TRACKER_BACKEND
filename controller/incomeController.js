@@ -3,6 +3,8 @@ import IncomeModel from "../schema/Income.js";
 export const addIncome = async (req, res) => {
   try {
     const userId = req.user._id;
+    console.log(req.user);
+    console.log(userId);
     const incomeObj = { userId, ...req.body };
 
     const newIncome = await IncomeModel.create(incomeObj);
@@ -19,9 +21,7 @@ export const addIncome = async (req, res) => {
 
 export const getIncome = async (req, res) => {
   try {
-    // console.log(req.user);
     const userId = req.user._id;
-    // console.log(userId);
     const incomes = await IncomeModel.find({ userId }).sort({ date: -1 });
     return res
       .status(200)

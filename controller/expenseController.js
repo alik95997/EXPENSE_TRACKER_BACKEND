@@ -1,7 +1,7 @@
 import ExpenseModel from "../schema/Expense.js";
 export const addExpense = async (req, res) => {
   try {
-    const userId = req.user;
+    const userId = req.user._id;
     const expenseObj = { userId, ...req.body };
 
     const newExpense = await ExpenseModel.create(expenseObj);
@@ -17,7 +17,7 @@ export const addExpense = async (req, res) => {
 
 export const getExpense = async (req, res) => {
   try {
-    const userId = req.user;
+    const userId = req.user._id;
     const expenses = await ExpenseModel.find({ userId }).sort({ date: -1 });
     return res.status(200).json({
       message: "Expense records fetched.",
