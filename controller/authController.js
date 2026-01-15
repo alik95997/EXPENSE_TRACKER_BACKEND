@@ -35,13 +35,17 @@ export const login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET);
 
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true, // Prevents JavaScript access (XSS protection)
+      secure: process.env.NODE_ENV === "production", // HTTPS only in production
+      sameSite: "lax", // CSRF protection
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
     return res.status(200).json({
       message: "Login successful",
       userId: user._id,
       data: user,
-      token,
     });
   } catch (error) {
     console.error("Login server error:", error.message);
@@ -52,6 +56,14 @@ export const login = async (req, res) => {
   }
 };
 
-export const profile = (req, res) => {
-  console.log(req.user);
+export const profile = async (req, res) => {
+  try {
+    // console.log(req.user);
+    const response = await User.findOne({ _id: req.user.id });
+
+    res.status(200).json({
+      message: "User Profile",
+      data: response,
+    });
+  } catch (error) {}
 };

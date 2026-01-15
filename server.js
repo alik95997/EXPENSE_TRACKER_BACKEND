@@ -11,11 +11,10 @@ import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+    origin: "expense-tracker-frontend-psi-dusky.vercel.app", // Your frontend URL
+    credentials: true, // Allow cookies
   })
 );
 
@@ -26,13 +25,13 @@ app.use(express.urlencoded({ extended: true }));
 
 try {
   dbConnection();
-  console.log("✅ Database connected successfully");
+  console.log(" Database connected successfully");
 } catch (err) {
-  console.error("❌ Database connection failed:", err.message);
+  console.error("Database connection failed:", err.message);
 }
 
 app.get("/", (req, res) => {
-  res.send("Hello Ustad 👋");
+  res.send("Hello Ustad");
 });
 
 app.use("/api/auth", authRoutes);
@@ -43,6 +42,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running locally at: http://localhost:${PORT}`);
+  console.log(`Server running locally at: http://localhost:${PORT}`);
 });
 export default app;
