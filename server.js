@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://expense-tracker-frontend-i6gudd8xf-alik95997s-projects.vercel.app" 
+    "https://expense-tracker-frontend-psi-dusky.vercel.app" 
   ],
   credentials: true
 }));
